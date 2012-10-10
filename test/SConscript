@@ -1,0 +1,19 @@
+import os
+import platform
+import glob
+
+def PhonyTargets(env = None, **kw):
+    if not env: env = DefaultEnvironment()
+    for target,action in kw.items():
+        env.AlwaysBuild(env.Alias(target, [], action))
+        
+env = Environment(tools=['default', 'cxxtest'])
+env.Append(CPPPATH='#src')
+
+if platform.platform(True, True).find('Windows') == 0:
+	env.Append(CXXTEST = os.environ['CXXTEST'])
+	env.Append(CCFLAGS = '/EHsc')
+
+test_runner = env.CxxTest('tests', glob.glob('*.t.hpp'))
+#PhonyTargets(env, TEST = "test/test")
+
