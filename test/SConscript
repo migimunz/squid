@@ -6,14 +6,17 @@ def PhonyTargets(env = None, **kw):
     if not env: env = DefaultEnvironment()
     for target,action in kw.items():
         env.AlwaysBuild(env.Alias(target, [], action))
-        
-env = Environment(tools=['default', 'cxxtest'])
-env.Append(CPPPATH='#src')
 
+env = Environment(tools=['default', 'cxxtest'])
+env.Append(CPPPATH=['#src'])
+env.Append(LIBPATH=['#lib'])
+env.Append(LIBS='squid')
 if platform.platform(True, True).find('Windows') == 0:
 	env.Append(CXXTEST = os.environ['CXXTEST'])
 	env.Append(CCFLAGS = '/EHsc')
 
-test_runner = env.CxxTest('tests', glob.glob('*.t.hpp'))
-#PhonyTargets(env, TEST = "test/test")
 
+env.CxxTest('string_iterator_test', source='string_iterator.t.hpp')
+env.CxxTest('string_test', source='string.t.hpp')
+env.CxxTest('tokens_test', source='tokens.t.hpp')
+env.CxxTest('lexer_test', source='lexer.t.hpp')

@@ -126,7 +126,7 @@ def isValidScriptPath(cxxtestgen):
         return True
     else:
         SCons.Warnings.warn(ToolCxxTestWarning,
-                            "Invalid CXXTEST environment variable specified!")
+                            "invalid CXXTEST environment variable specified!")
         return False
     
 def defaultCxxTestGenLocation(env):

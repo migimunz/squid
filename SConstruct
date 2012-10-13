@@ -1,4 +1,5 @@
 import os
 
 env = Environment()
-env.SConscript(dirs = ["src/parser", "test"])
+env.SConscript('lib/SConscript')
+env.SConscript('test/SConscript')
