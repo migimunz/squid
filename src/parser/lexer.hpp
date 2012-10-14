@@ -19,6 +19,13 @@ public:
 	lexer_exception(const std::string &, str_iter);
 };
 
+class token_expectation_exception : std::runtime_error
+{
+public:
+	token_type found, expected;
+	token_expectation_exception(token_type found, token_type expected);
+};
+
 class lexer
 {
 	token_matcher_map token_matchers;
@@ -47,6 +54,7 @@ public:
 	str_iter read_token(token &);
 	token look_ahead(int distance);
 	token consume();
+	token consume(token_type);
 
 	//bool look_ahead(token_type )
 };

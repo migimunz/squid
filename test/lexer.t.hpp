@@ -50,7 +50,20 @@ public:
 		TS_ASSERT_EQUALS(tok.type, END_OF_TEXT);
 	}
 
-	void test_print_tokens()
+	void test_consume_expected_tokens()
+	{
+		lexer lex("foo + b * c");
+		TS_ASSERT_THROWS_NOTHING(lex.consume(IDENTIFIER));
+		TS_ASSERT_THROWS_NOTHING(lex.consume(PLUS));
+		TS_ASSERT_THROWS_NOTHING(lex.consume(IDENTIFIER));
+		TS_ASSERT_THROWS(lex.consume(MINUS), token_expectation_exception);
+		TS_ASSERT_THROWS_NOTHING(lex.consume(MULTIPLY));
+		TS_ASSERT_THROWS_NOTHING(lex.consume(IDENTIFIER));
+		TS_ASSERT_THROWS_NOTHING(lex.consume(END_OF_TEXT));
+		TS_ASSERT_THROWS(lex.consume(IDENTIFIER), token_expectation_exception);
+	}
+
+	void _test_print_tokens()
 	{
 		const char *text = "foo = a + b * c / d";
 		lexer lex(text);
