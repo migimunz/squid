@@ -78,6 +78,11 @@ public:
 		return std::string(start.get_ptr(), str_iter::dist(start, end));
 	}
 
+	str_iter get_start_iter() const
+	{
+		return start;
+	}
+
 	str_iter get_end_iter() const
 	{
 		return end;

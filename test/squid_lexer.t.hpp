@@ -1,17 +1,17 @@
 #include <cxxtest/TestSuite.h>
-#include <parser/lexer.hpp>
+#include <parser/squid_lexer.hpp>
 #include <stdexcept>
 #include <sstream>
 #include <iostream>
 
 using namespace squid;
 
-class LexerTestSuite : public CxxTest::TestSuite
+class SquidLexerTestSuite : public CxxTest::TestSuite
 {
 public:
 	void test_get_some_names()
 	{
-		lexer lex;
+		squid_lexer lex;
 		TS_ASSERT_EQUALS(lex.get_token_name(PLUS), "'+'");
 		TS_ASSERT_EQUALS(lex.get_token_name(INVALID), "INVALID TOKEN");
 		TS_ASSERT_THROWS(lex.get_token_name((token_type)-1), lexer_exception);
@@ -19,7 +19,7 @@ public:
 
 	void test_get_some_matchers()
 	{
-		lexer lex;
+		squid_lexer lex;
 		TS_ASSERT_EQUALS(lex.get_token_matcher(PLUS), match_plus);
 		TS_ASSERT_EQUALS(lex.get_token_matcher(INVALID), match_invalid);
 		TS_ASSERT_THROWS(lex.get_token_matcher((token_type)-1), lexer_exception);
@@ -27,7 +27,7 @@ public:
 
 	void test_read_token()
 	{
-		lexer lex("foo + b * c");
+		squid_lexer lex("foo + b * c");
 		token tok = lex.read_token();
 		TS_ASSERT_EQUALS(tok.type, IDENTIFIER);
 		TS_ASSERT_EQUALS(tok.text, "foo");
@@ -50,9 +50,33 @@ public:
 		TS_ASSERT_EQUALS(tok.type, END_OF_TEXT);
 	}
 
+	void test_lookahead()
+	{
+		squid_lexer lex("foo + b * c");
+		lex.look_ahead(5);
+		TS_ASSERT_EQUALS(lex.consume().type, IDENTIFIER);
+		TS_ASSERT_EQUALS(lex.consume().type, PLUS);
+		TS_ASSERT_EQUALS(lex.consume().type, IDENTIFIER);
+		TS_ASSERT_EQUALS(lex.consume().type, MULTIPLY);
+		TS_ASSERT_EQUALS(lex.consume().type, IDENTIFIER);
+	}
+
+	void test_rollback()
+	{
+		squid_lexer lex("foo + b * c");
+		lex.look_ahead(5);
+		lex.rollback();
+		lex.look_ahead(5);
+		TS_ASSERT_EQUALS(lex.consume().type, IDENTIFIER);
+		TS_ASSERT_EQUALS(lex.consume().type, PLUS);
+		TS_ASSERT_EQUALS(lex.consume().type, IDENTIFIER);
+		TS_ASSERT_EQUALS(lex.consume().type, MULTIPLY);
+		TS_ASSERT_EQUALS(lex.consume().type, IDENTIFIER);
+	}
+
 	void test_consume_expected_tokens()
 	{
-		lexer lex("foo + b * c");
+		squid_lexer lex("foo + b * c");
 		TS_ASSERT_THROWS_NOTHING(lex.consume(IDENTIFIER));
 		TS_ASSERT_THROWS_NOTHING(lex.consume(PLUS));
 		TS_ASSERT_THROWS_NOTHING(lex.consume(IDENTIFIER));
@@ -66,7 +90,7 @@ public:
 	void _test_print_tokens()
 	{
 		const char *text = "foo = a + b * c / d";
-		lexer lex(text);
+		squid_lexer lex(text);
 		std::stringstream stream;
 		stream << "\n  Tokenizing: " << text << "\n  Result: ";
 

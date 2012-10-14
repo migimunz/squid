@@ -20,37 +20,26 @@ token_expectation_exception::token_expectation_exception(
 }
 
 lexer::lexer()
-	:token_matchers(TOKEN_TYPE_COUNT),
-	 token_names(TOKEN_TYPE_COUNT),
+	:token_matchers(),
+	 token_names(),
 	 tokens_ahead(),
 	 skip(WHITESPACE)
 {
-	init();
+}
+
+lexer::~lexer()
+{
 }
 
 lexer::lexer(const str_iter &text)
-	:token_matchers(TOKEN_TYPE_COUNT),
-	 token_names(TOKEN_TYPE_COUNT),
+	:token_matchers(),
+	 token_names(),
 	 tokens_ahead(),
 	 skip(WHITESPACE)
 {
-	init();
 	set_text(text);
 }
 
-void lexer::init()
-{
-	register_token(INVALID, 	match_invalid, 		"INVALID TOKEN");
-	register_token(END_OF_TEXT, match_end_of_text, 	"END_OF_TEXT");
-	register_token(INDENT_FRAG, match_indent_frag, 	"IDENT");
-	register_token(WHITESPACE, 	match_whitespace, 	"WHITESPACE");
-	register_token(IDENTIFIER, 	match_identifier, 	"IDENTIFIER");
-	register_token(PLUS, 		match_plus, 		"'+'");
-	register_token(MINUS,		match_minus, 		"'-'");
-	register_token(MULTIPLY,	match_multiply, 	"'*'");
-	register_token(DIVIDE,		match_divide, 		"'/'");
-	register_token(MATCH,		match_match, 		"'='");
-}
 
 bool lexer::match_single_token(token &t, token_type type)
 {
@@ -70,25 +59,15 @@ bool lexer::match_single_token(token &t, token_type type)
 
 bool lexer::match_any_token(token &t)
 {
-	for(int i = 1; i < TOKEN_TYPE_COUNT; ++i)
+	//for(int i = 1; i < TOKEN_TYPE_COUNT; ++i)
+	for(auto iter = always_match_list.begin(); iter != always_match_list.end(); ++iter)
 	{
-		token_type type = (token_type)i;
+		token_type type = (token_type)*iter;
 		if(match_single_token(t, type))
 			return true;
 	}
 	t = token(INVALID);
 	return false;
-}
-
-bool lexer::match_expected_token(token &t, token_type type)
-{
-	if(!valid_token_type(type))
-		return false;
-
-	//skipping whitespace
-	token dummy;
-	match_single_token(dummy, skip);
-	return match_single_token(t, type);
 }
 
 token lexer::read_token()
@@ -122,6 +101,30 @@ token lexer::look_ahead(int distance)
 	return tokens_ahead.front();
 }
 
+bool lexer::match_expected_token(token &t, token_type type, bool match_skip)
+{
+	if(!valid_token_type(type))
+		return false;
+
+	//skipping whitespace
+	if(match_skip)
+	{
+		token dummy;
+		match_single_token(dummy, skip);
+	}
+	return match_single_token(t, type);
+}
+
+void lexer::rollback()
+{
+	if(!tokens_ahead.empty())
+	{
+		token first = tokens_ahead.front();
+		current = first.text.get_start_iter();
+		tokens_ahead.clear();
+	}
+}
+
 token lexer::consume()
 {
 	token t = look_ahead(0);
@@ -130,25 +133,65 @@ token lexer::consume()
 	return t;
 }
 
-token lexer::consume(token_type type)
+token lexer::consume(token_type type, bool match_skip)
 {
-	token t(INVALID);
-	if(tokens_ahead.empty())
-		match_expected_token(t, type);
-	else
-		t = tokens_ahead.front();
-
-	if(t.type != type)
-	{	
-		t = look_ahead(0);
-		throw token_expectation_exception(t.type, type);
+	token t;
+	rollback();
+	if(match_expected_token(t, type, match_skip))
+	{
+		return t;
 	}
 	else
 	{
-		tokens_ahead.pop_front();
+		t = look_ahead(0);
+		throw token_expectation_exception(t.type, type);
 	}
-	return t;
 }
+
+void lexer::emit(const token &t)
+{
+	tokens_ahead.push_front(t);
+}
+
+// token lexer::consume(token_type type)
+// {
+// 	token t = look_ahead(0);
+// 	if(t.type != type)
+// 		throw token_expectation_exception(t.type, type);
+// 	else
+// 		tokens_ahead.pop_front();
+// 	return t;
+// }
+
+// token lexer::consume(token_type type)
+// {
+// 	token t(INVALID);
+// 	if(tokens_ahead.empty())
+// 		match_expected_token(t, type);
+// 	else
+// 		t = tokens_ahead.front();
+
+// 	if(t.type != type)
+// 	{	
+// 		t = look_ahead(0);
+// 		throw token_expectation_exception(t.type, type);
+// 	}
+// 	else
+// 	{
+// 		tokens_ahead.pop_front();
+// 	}
+// 	return t;
+// }
+
+// token lexer::consume(token_type type)
+// {
+// 	token t = look_ahead(0);
+// 	if(t.type != type)
+// 		throw token_expectation_exception(t.type, type);
+// 	else
+// 		tokens_ahead.pop_front();
+// 	return t;
+// }
 
 bool lexer::valid_token_type(token_type type) const
 {
@@ -160,7 +203,7 @@ std::string lexer::get_token_name(token_type type) const
 	if(!valid_token_type(type))
 		throw lexer_exception("Invalid token type in get_token_name.", current);
 	else
-		return token_names[type];
+		return token_names.at(type);
 }
 
 token_match_func lexer::get_token_matcher(token_type type) const
@@ -168,7 +211,7 @@ token_match_func lexer::get_token_matcher(token_type type) const
 	if(!valid_token_type(type))
 		throw lexer_exception("Invalid token type in get_token_matcher.", current);
 	else
-		return token_matchers[type];
+		return token_matchers.at(type);
 }
 
 void lexer::set_text(const str_iter &text)
@@ -179,12 +222,15 @@ void lexer::set_text(const str_iter &text)
 void lexer::register_token(
 	token_type type, 
 	token_match_func func, 
-	const std::string &name)
+	const std::string &name,
+	bool always_match)
 {
 	if(!valid_token_type(type))
 		return;
-	token_matchers[type] = func;
 	token_names[type] = name;
+	token_matchers[type] = func;
+	if(always_match)
+		always_match_list.push_back(type);
 }
 
 }

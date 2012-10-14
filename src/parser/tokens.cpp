@@ -38,10 +38,19 @@ bool token::valid() const
 	return type > 0 && type < TOKEN_TYPE_COUNT;
 }
 
+size_t token_hasher::operator()(const token &t) const
+{
+	return t.type;
+}
 
 string match_invalid(const str_iter &)
 {
 	throw std::runtime_error("Lexer error: match_invalid applied");
+}
+
+string match_always_fail(const str_iter &)
+{
+	return string();
 }
 
 string match_identifier(const str_iter &iter)

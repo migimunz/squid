@@ -5,23 +5,21 @@
 namespace squid
 {
 
-/**
- * ORDER IS IMPORTANT
- * The order of the token types defines the order in which they are 
- * matched, INVALID token is skipped.
- */
+
 enum token_type
 {
 	INVALID = 0,
 	END_OF_TEXT,
 	INDENT_FRAG,
 	WHITESPACE,
-	IDENTIFIER,
 	PLUS,
 	MINUS,
 	MULTIPLY,
 	DIVIDE, 
 	MATCH,
+	IDENTIFIER,
+	INDENT,
+	DEDENT,
 	TOKEN_TYPE_COUNT //number of token types
 };
 
@@ -41,7 +39,13 @@ struct token
 	bool valid() const;
 };
 
+struct token_hasher
+{
+	size_t operator()(const token &) const;
+};
+
 string match_invalid(const str_iter &);
+string match_always_fail(const str_iter &);
 string match_identifier(const str_iter &);
 string match_plus(const str_iter &);
 string match_minus(const str_iter &);
