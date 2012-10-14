@@ -1,5 +1,6 @@
 #include <cxxtest/TestSuite.h>
 #include <parser/squid_lexer.hpp>
+#include <cstring>
 #include <stdexcept>
 #include <sstream>
 #include <iostream>
@@ -50,9 +51,29 @@ public:
 		TS_ASSERT_EQUALS(tok.type, END_OF_TEXT);
 	}
 
+	void test_compute_indent_level()
+	{
+		TS_ASSERT_THROWS_NOTHING(squid_lexer("\n    ").consume(INDENT_FRAG, false));
+		TS_ASSERT_THROWS_NOTHING(squid_lexer("\n        ").consume(INDENT_FRAG, false));
+		TS_ASSERT_THROWS_NOTHING(squid_lexer("\n	    	").consume(INDENT_FRAG, false));
+		TS_ASSERT_THROWS_NOTHING(squid_lexer("\n	    	  ").consume(INDENT_FRAG, false));
+	}
+
 	void test_lookahead()
 	{
 		squid_lexer lex("foo + b * c");
+		lex.look_ahead(5);
+		TS_ASSERT_EQUALS(lex.consume().type, IDENTIFIER);
+		TS_ASSERT_EQUALS(lex.consume().type, PLUS);
+		TS_ASSERT_EQUALS(lex.consume().type, IDENTIFIER);
+		TS_ASSERT_EQUALS(lex.consume().type, MULTIPLY);
+		TS_ASSERT_EQUALS(lex.consume().type, IDENTIFIER);
+	}
+
+	void test_emit()
+	{
+		squid_lexer lex("+ b * c");
+		lex.emit(IDENTIFIER);
 		lex.look_ahead(5);
 		TS_ASSERT_EQUALS(lex.consume().type, IDENTIFIER);
 		TS_ASSERT_EQUALS(lex.consume().type, PLUS);

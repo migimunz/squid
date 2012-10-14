@@ -47,6 +47,26 @@ public:
 		return ptr != rhs.ptr;
 	}
 
+	bool operator<(const self_type &rhs) const
+	{
+		return ptr < rhs.ptr;
+	}
+
+	bool operator>(const self_type &rhs) const
+	{
+		return ptr > rhs.ptr;
+	}
+
+	bool operator<=(const self_type &rhs) const
+	{
+		return ptr <= rhs.ptr;
+	}
+
+	bool operator>=(const self_type &rhs) const
+	{
+		return ptr >= rhs.ptr;
+	}
+
 	T operator*() const
 	{
 		return *ptr;

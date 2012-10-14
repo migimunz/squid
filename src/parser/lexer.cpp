@@ -13,7 +13,7 @@ lexer_exception::lexer_exception(const std::string &msg, str_iter position)
 token_expectation_exception::token_expectation_exception(
 	token_type found, 
 	token_type expected)
-	:std::runtime_error(""),
+	:std::runtime_error("Unexpected token encountered."),
 	 found(found),
 	 expected(expected)
 {
@@ -49,12 +49,27 @@ bool lexer::match_single_token(token &t, token_type type)
 	{
 		t = token(type, match, str_iter::dist(beginning, current));
 		current = match.get_end_iter();
+		transform_token(t);
 		return true;
 	}
 	else
 	{
 		return false;
 	}
+}
+
+bool lexer::match_expected_token(token &t, token_type type, bool match_skip)
+{
+	if(!valid_token_type(type))
+		return false;
+
+	//skipping whitespace
+	if(match_skip)
+	{
+		token dummy;
+		match_single_token(dummy, skip);
+	}
+	return match_single_token(t, type);
 }
 
 bool lexer::match_any_token(token &t)
@@ -101,18 +116,8 @@ token lexer::look_ahead(int distance)
 	return tokens_ahead.front();
 }
 
-bool lexer::match_expected_token(token &t, token_type type, bool match_skip)
+void lexer::transform_token(token &t)
 {
-	if(!valid_token_type(type))
-		return false;
-
-	//skipping whitespace
-	if(match_skip)
-	{
-		token dummy;
-		match_single_token(dummy, skip);
-	}
-	return match_single_token(t, type);
 }
 
 void lexer::rollback()
@@ -148,9 +153,12 @@ token lexer::consume(token_type type, bool match_skip)
 	}
 }
 
-void lexer::emit(const token &t)
+void lexer::emit(token_type type)
 {
-	tokens_ahead.push_front(t);
+	tokens_ahead.push_front(token(
+		type, 
+		string(current, current),
+		str_iter::dist(beginning, current)));
 }
 
 // token lexer::consume(token_type type)
@@ -231,6 +239,16 @@ void lexer::register_token(
 	token_matchers[type] = func;
 	if(always_match)
 		always_match_list.push_back(type);
+}
+
+void lexer::report_warning(const char *, int position)
+{
+
+}
+
+int lexer::get_position()
+{
+	return str_iter::dist(beginning, current);
 }
 
 }

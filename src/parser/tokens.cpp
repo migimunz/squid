@@ -102,7 +102,7 @@ string match_match(const str_iter &iter)
 string match_indent_frag(const str_iter &iter)
 {
 	if(!iter.valid()) return string();
-	return string(iter, iter.match("\n").zero_or_more(match, "\t"));
+	return string(iter, iter.match("\n").zero_or_more(any, " \t"));
 }
 
 string match_whitespace(const str_iter &iter)

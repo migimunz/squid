@@ -31,6 +31,7 @@ public:
 
 class lexer
 {
+protected:
 	token_matcher_map token_matchers;
 	token_name_map token_names;
 	token_type_list always_match_list;
@@ -39,12 +40,11 @@ class lexer
 
 	str_iter beginning, current;
 
-protected:
 	void register_token(token_type, token_match_func, const std::string &, bool);
 	bool match_single_token(token &, token_type);
 	bool match_any_token(token &);
 	bool match_expected_token(token &t, token_type type, bool match_skip);
-	
+	virtual void transform_token(token &t);
 public:
 	lexer();
 	lexer(const str_iter &);
@@ -62,7 +62,10 @@ public:
 	token consume();
 	token consume(token_type, bool match_skip = true);
 	void rollback();
-	void emit(const token &t);
+	void emit(token_type);
+
+	void report_warning(const char *, int position);
+	int get_position();
 };
 
 }
