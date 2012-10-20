@@ -1,0 +1,941 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"parent",
+				"parent_id"
+			],
+			[
+				"print",
+				"print_label"
+			],
+			[
+				"visi",
+				"visitor_sources"
+			],
+			[
+				"iden",
+				"identifier_node"
+			],
+			[
+				"squi",
+				"squid_lexer"
+			],
+			[
+				"lex",
+				"lexer_exception"
+			],
+			[
+				"try",
+				"try_consume_indent_token"
+			],
+			[
+				"token",
+				"tokens_ahead"
+			],
+			[
+				"ah",
+				"tokens_ahead"
+			],
+			[
+				"de",
+				"delta_indent"
+			],
+			[
+				"INDENT",
+				"INDENT_FRAG"
+			],
+			[
+				"coun",
+				"countChangeIter"
+			],
+			[
+				"balance",
+				"balance_iter"
+			],
+			[
+				"prot",
+				"prototype"
+			],
+			[
+				"edit",
+				"editorOptions"
+			],
+			[
+				"editor",
+				"editor-container"
+			],
+			[
+				"rpn_tok",
+				"rpn_tokenize_all"
+			],
+			[
+				"handle",
+				"handle_regular_file"
+			],
+			[
+				"en",
+				"enqueue_many"
+			],
+			[
+				"start",
+				"start_child"
+			],
+			[
+				"max",
+				"MaxTime"
+			],
+			[
+				"scor",
+				"scoreboard_hw"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/parser/squid_lexer.hpp",
+			"settings":
+			{
+				"buffer_size": 447,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/parser/lexer.hpp",
+			"settings":
+			{
+				"buffer_size": 2292,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/parser/tokens.hpp",
+			"settings":
+			{
+				"buffer_size": 1621,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/parser/string.hpp",
+			"settings":
+			{
+				"buffer_size": 1386,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/parser/parser.hpp",
+			"settings":
+			{
+				"buffer_size": 717,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/parser/ast_visitor.hpp",
+			"settings":
+			{
+				"buffer_size": 407,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/parser/ast.hpp",
+			"settings":
+			{
+				"buffer_size": 986,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/parser/ast_visitor.cpp",
+			"settings":
+			{
+				"buffer_size": 202,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/parser/squid_lexer.cpp",
+			"settings":
+			{
+				"buffer_size": 3231,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/parser/tokens.cpp",
+			"settings":
+			{
+				"buffer_size": 2452,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/parser/parser.cpp",
+			"settings":
+			{
+				"buffer_size": 221,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "test/parser.t.cpp",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/parser/ast.cpp",
+			"settings":
+			{
+				"buffer_size": 605,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "test/SConscript",
+			"settings":
+			{
+				"buffer_size": 813,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "import subprocess\nimport glob\nimport os\n\nprint('')\nfor test in glob.glob('test/*.t.hpp'):\n	test = test.replace('.t.hpp', '_test.exe')\n	print('Running %s:' % test)\n	subprocess.call(test)\n	print('')\n\nif 'GRAPHVIZ_PATH' in os.environ:\n	print('Generating AST graphs...')\n	for dot in glob.glob('test/*.dot'):\n		pngname = dot.replace('.dot', '.png')\n		print('Generated %s' % pngname)\n		subprocess.call(['dot', dot, '-Tpng', '-o'+pngname])\n	print('')\n\n",
+			"file": "run_tests.py",
+			"file_size": 460,
+			"file_write_time": 129950625761355403,
+			"settings":
+			{
+				"buffer_size": 445,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "Packages/User/scons.sublime-build",
+	"command_palette":
+	{
+		"height": 127.0,
+		"selected_items":
+		[
+			[
+				"build",
+				"Build: Cancel"
+			],
+			[
+				"save",
+				"File: Save All"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Package Control: Add Repository"
+			],
+			[
+				"Package Control: remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"Package Control: insta",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			],
+			[
+				":w",
+				":w - Save"
+			],
+			[
+				"Package",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"Install",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Disco",
+				"Package Control: Discover Packages"
+			],
+			[
+				"Package Control: List Packages",
+				"Package Control: List Packages"
+			],
+			[
+				"Package Control: List P",
+				"Package Control: List Packages"
+			],
+			[
+				"Package Control:L",
+				"Package Control: List Packages"
+			]
+		],
+		"width": 528.0
+	},
+	"console":
+	{
+		"height": 268.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/D/dev/squid/lib/SConscript",
+		"/D/dev/squid/src/visitors/dot_visitor.cpp",
+		"/D/dev/squid/src/visitors/dot_visitor.hpp",
+		"/D/dev/squid/SConstruct",
+		"/D/dev/squid/test/SConscript",
+		"/D/dev/squid/src/parser/dot_visitor.cpp",
+		"/D/dev/squid/src/parser/dot_visitor.hpp",
+		"/D/dev/squid/src/parser/lexer.cpp",
+		"/D/dev/squid/src/parser/squid_lexer.hpp",
+		"/C/Users/Particle/AppData/Roaming/Sublime Text 2/Packages/User/scons.sublime-build",
+		"/D/dev/squid/project.sublime-project",
+		"/C/nginx/html/LogicBoar/expressions.jison",
+		"/C/nginx/html/circles/index.html",
+		"/C/nginx/html/circles/js/imagebuffer.js",
+		"/C/nginx/html/treecode/index.html",
+		"/C/nginx/html/treecode/js/ui.js",
+		"/C/nginx/html/treecode/skulpt/example/calling_from_js.html",
+		"/C/nginx/html/treecode/css/style.css",
+		"/C/nginx/html/treecode/codemirror/theme/ambiance.css",
+		"/C/nginx/html/treecode/codemirror/theme/cobalt.css",
+		"/D/dev/test.py",
+		"/D/dev/LevelTools/src/org/ivar/leveltools/DameLevel.hx",
+		"/D/dev/haxe-test/test.hx",
+		"/D/dev/LevelTools/src/org/ivar/leveltools/Level.hx",
+		"/D/dev/haxe-test/build.hxml",
+		"/D/dev/haxe-test/output.xml",
+		"/C/nginx/html/galaxy/js/perlin-noise-simplex.js",
+		"/C/nginx/html/galaxy/index.html",
+		"/C/nginx/html/galaxy/glsl/stars.vert",
+		"/C/nginx/html/galaxy/glsl/stars.frag",
+		"/C/nginx/html/galaxy/js/Galaxy.js",
+		"/C/nginx/html/galaxy/js/Game.js",
+		"/C/nginx/html/galaxy/js/Utils.js",
+		"/C/nginx/html/propgrid/index.html",
+		"/C/nginx/html/radionica/prvo.md",
+		"/C/Users/Particle/Documents/radionica/prvo.md",
+		"/C/Users/Particle/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/C/nginx/html/Planets/js/TextureGenerator.js",
+		"/C/nginx/html/Planets/js/noise.js",
+		"/C/nginx/html/Planets/js/game.js",
+		"/C/nginx/html/Planets/index.html",
+		"/D/dev/erlang/test.erl",
+		"/D/dev/erlang/rpn_parser.erl",
+		"/D/dev/erlang/rpn_lexer.erl",
+		"/D/dev/erlang/erlcount/Emakefile",
+		"/D/dev/erlang/erlcount/project.sublime-project",
+		"/D/dev/erlang/ppool/src/ppool.erl",
+		"/D/dev/erlang/ppool/test/ppool_tests.erl",
+		"/D/dev/erlang/ppool/src/ppool_nagger.erl",
+		"/D/dev/erlang/ppool/src/ppool_serv.erl",
+		"/D/dev/erlang/ppool/src/ppool_sup.erl",
+		"/D/dev/erlang/ppool/src/ppool_supersup.erl",
+		"/D/dev/erlang/ppool/src/ppool_worker_sup.erl",
+		"/D/dev/erlang/ppool/ebin/ppool.app",
+		"/D/dev/erlang/ppool.erl",
+		"/D/dev/erlang/ppool_supersup.erl",
+		"/D/dev/erlang/ppool_sup.erl",
+		"/D/dev/erlang/ppool_worker_sup.erl",
+		"/D/dev/erlang/ppool_serv.erl",
+		"/D/dev/erlang/ppool_nagger.erl",
+		"/D/dev/erlang/band_supervisor.erl",
+		"/D/dev/erlang/musicians.erl",
+		"/C/Users/Particle/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Users/Particle/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
+		"/D/dev/erlang/scoreboard_hw.erl",
+		"/D/dev/erlang/scoreboard.erl",
+		"/D/dev/erlang/curling_feed.erl",
+		"/D/dev/erlang/curling.erl",
+		"/D/dev/erlang/accumulator.erl",
+		"/C/nginx/html/PaintJS/js/jquery-ui.js",
+		"/C/nginx/html/PaintJS/js/jquery.js",
+		"/C/nginx/html/htj.js"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"iter",
+			"pop_fron",
+			"clear",
+			"string",
+			"typedef",
+			"filter",
+			"6",
+			"new Emp",
+			"\n",
+			"width",
+			"this",
+			"showprompt",
+			"caret",
+			"Caret",
+			"caret",
+			"Caret",
+			"caret",
+			"Caret",
+			"caret",
+			"Caret",
+			"caret",
+			"Caret",
+			"results",
+			"files",
+			"js",
+			"**\n",
+			"eof",
+			"?CONT",
+			"CONTINUE",
+			"Rest",
+			" \"",
+			" [\"+\"",
+			"filename",
+			"find_unique_name",
+			"handle_cast",
+			")],",
+			"State",
+			";",
+			"5",
+			"return",
+			"format",
+			"TeamA",
+			"escape",
+			"mode"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": true,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 6,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/parser/squid_lexer.hpp",
+					"settings":
+					{
+						"buffer_size": 447,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								205,
+								217
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/parser/lexer.hpp",
+					"settings":
+					{
+						"buffer_size": 2292,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								243,
+								154
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/parser/tokens.hpp",
+					"settings":
+					{
+						"buffer_size": 1621,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1616,
+								1616
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/parser/string.hpp",
+					"settings":
+					{
+						"buffer_size": 1386,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								102,
+								102
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/parser/parser.hpp",
+					"settings":
+					{
+						"buffer_size": 717,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								12,
+								12
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/parser/ast_visitor.hpp",
+					"settings":
+					{
+						"buffer_size": 407,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								108,
+								61
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "src/parser/ast.hpp",
+					"settings":
+					{
+						"buffer_size": 986,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								769,
+								769
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 378.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 7,
+					"file": "src/parser/ast_visitor.cpp",
+					"settings":
+					{
+						"buffer_size": 202,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								202,
+								202
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 54.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "src/parser/squid_lexer.cpp",
+					"settings":
+					{
+						"buffer_size": 3231,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1863,
+								1863
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 594.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "src/parser/tokens.cpp",
+					"settings":
+					{
+						"buffer_size": 2452,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1936,
+								1936
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1296.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "src/parser/parser.cpp",
+					"settings":
+					{
+						"buffer_size": 221,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								221,
+								221
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "test/parser.t.cpp",
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "src/parser/ast.cpp",
+					"settings":
+					{
+						"buffer_size": 605,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								602,
+								602
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "test/SConscript",
+					"settings":
+					{
+						"buffer_size": 813,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								285,
+								285
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "run_tests.py",
+					"settings":
+					{
+						"buffer_size": 445,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								445,
+								445
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.5,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 299.0
+	},
+	"output.haxe":
+	{
+		"height": 0.0
+	},
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"sco",
+				"/D/dev/erlang/scoreboard.erl"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 204.0,
+	"status_bar_visible": true
+}

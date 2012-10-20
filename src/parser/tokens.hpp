@@ -5,22 +5,40 @@
 namespace squid
 {
 
-
+/***
+ **	WHEN ADDING NEW TOKENS, ADD THEM TO squid_lexer::init() 
+ ** AND CREATE A MATCHER
+ **
+ ***/
 enum token_type
 {
+	/** SPECIAL **/
 	INVALID = 0,
-	END_OF_TEXT,
-	INDENT_FRAG,
-	WHITESPACE,
-	PLUS,
-	MINUS,
-	MULTIPLY,
-	DIVIDE, 
-	MATCH,
-	IDENTIFIER,
-	INDENT,
-	DEDENT,
-	TOKEN_TYPE_COUNT //number of token types
+	END_OF_TEXT,		// EOF
+	INDENT_FRAG,		// '\n' ('    ' | '\t')*
+	WHITESPACE,			// (' '|'\t'|'\t'|'\n')*
+	/** OPERATORS AND SYMBOLS **/
+	AND,				// 'and'
+	OR,					// 'or'
+	NOT,				// 'not'
+	ARROW,				// '->'
+	PLUS,				// '+'
+	MINUS,				// '-'
+	MULTIPLY,			// '*'
+	DIVIDE, 			// '/'
+
+	COMMA,				// ','
+	DOT,				// '.'
+	MATCH,				// '='
+	PAREN_OPEN,			// '('
+	PAREN_CLOSED,		// ')'
+	IDENTIFIER,			// ('_'|'a'..'z'|'A'..'Z') ('_'|'a'..'z'|'A'..'Z'|'0'..'9')*
+	/** KEYWORDS **/
+	DEF,				// 'def'
+	/** LITERALS AND META **/
+	INDENT,				// -->
+	DEDENT,				// <--
+	TOKEN_TYPE_COUNT 	//number of token types
 };
 
 typedef string(*token_match_func)(const str_iter &);
@@ -55,6 +73,13 @@ string match_match(const str_iter &);
 string match_indent_frag(const str_iter &);
 string match_whitespace(const str_iter &);
 string match_end_of_text(const str_iter &);
-
-
+string match_arrow(const str_iter &);
+string match_paren_open(const str_iter &);
+string match_paren_closed(const str_iter &);
+string match_def(const str_iter &);
+string match_comma(const str_iter &iter);
+string match_dot(const str_iter &iter);
+string match_and(const str_iter &iter);
+string match_or(const str_iter &iter);
+string match_not(const str_iter &iter);
 }

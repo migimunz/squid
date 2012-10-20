@@ -18,12 +18,28 @@ public:
 		TS_ASSERT_THROWS(lex.get_token_name((token_type)-1), lexer_exception);
 	}
 
+	void test_fail_recover()
+	{
+		squid_lexer lex("foo *");
+		token t;
+		lex.try_consume(t, PLUS);
+		TS_ASSERT(lex.try_consume(t, IDENTIFIER));
+	}
+
 	void test_get_some_matchers()
 	{
 		squid_lexer lex;
 		TS_ASSERT_EQUALS(lex.get_token_matcher(PLUS), match_plus);
 		TS_ASSERT_EQUALS(lex.get_token_matcher(INVALID), match_invalid);
 		TS_ASSERT_THROWS(lex.get_token_matcher((token_type)-1), lexer_exception);
+	}
+
+	void test_keyword_separation()
+	{
+		TS_ASSERT_EQUALS(squid_lexer("def foo").consume().type, DEF);
+		TS_ASSERT_EQUALS(squid_lexer("deffoo").consume().type, IDENTIFIER);
+		TS_ASSERT_EQUALS(squid_lexer("not foo").consume().type, NOT);
+		TS_ASSERT_EQUALS(squid_lexer("notfoo").consume().type, IDENTIFIER);
 	}
 
 	void test_read_token()
@@ -51,12 +67,32 @@ public:
 		TS_ASSERT_EQUALS(tok.type, END_OF_TEXT);
 	}
 
-	void test_compute_indent_level()
+	void test_consume_indent_frag()
 	{
 		TS_ASSERT_THROWS_NOTHING(squid_lexer("\n    ").consume(INDENT_FRAG, false));
 		TS_ASSERT_THROWS_NOTHING(squid_lexer("\n        ").consume(INDENT_FRAG, false));
 		TS_ASSERT_THROWS_NOTHING(squid_lexer("\n	    	").consume(INDENT_FRAG, false));
 		TS_ASSERT_THROWS_NOTHING(squid_lexer("\n	    	  ").consume(INDENT_FRAG, false));
+	}
+
+	void test_consume_indentation()
+	{
+		squid_lexer l1(
+			"\nfoo"
+			"\n    bar"
+			"\n        baz"
+			"\nfiz"
+			"\nwub"
+			);
+		TS_ASSERT_THROWS_NOTHING(l1.consume(IDENTIFIER)); //foo
+		TS_ASSERT_THROWS_NOTHING(l1.consume_indent_token(INDENT));
+		TS_ASSERT_THROWS_NOTHING(l1.consume(IDENTIFIER)); //bar
+		TS_ASSERT_THROWS_NOTHING(l1.consume_indent_token(INDENT));
+		TS_ASSERT_THROWS_NOTHING(l1.consume(IDENTIFIER)); //baz
+		TS_ASSERT_THROWS_NOTHING(l1.consume_indent_token(DEDENT));
+		TS_ASSERT_THROWS_NOTHING(l1.consume_indent_token(DEDENT));
+		TS_ASSERT_THROWS_NOTHING(l1.consume(IDENTIFIER)); //fiz
+		TS_ASSERT_THROWS_NOTHING(l1.consume(IDENTIFIER)); //wub
 	}
 
 	void test_lookahead()

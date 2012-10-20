@@ -53,6 +53,11 @@ string match_always_fail(const str_iter &)
 	return string();
 }
 
+str_iter match_identifier_char(str_iter matched, str_iter::str_ptr)
+{
+	return matched.alpha() | matched.digit() | matched.match("_");
+}
+
 string match_identifier(const str_iter &iter)
 {
 	if(!iter.valid()) return string();
@@ -60,43 +65,102 @@ string match_identifier(const str_iter &iter)
 	str_iter matched = iter.alpha() | iter.match("_");
 	if(matched.valid())
 	{
-		matched = matched.zero_or_more([](str_iter matched, str_iter::str_ptr) 
-			{ 
-				return matched.alpha() | matched.digit() | matched.match("_"); 
-			}, NULL) | matched;
+		matched = matched.zero_or_more(match_identifier_char, NULL) | matched;
 		return string(iter, matched);
 	}
 	return string();
 }
 
-string match_plus(const str_iter &iter)
+string match_str(const str_iter &iter, const char *str)
 {
 	if(!iter.valid()) return string();
-	return string(iter, iter.match("+"));
+	return string(iter, iter.match(str));
+}
+
+string match_keyword(const str_iter &iter, const char *str)
+{
+	if(!iter.valid()) return string();
+	str_iter match = iter.match(str);
+	if(match.valid() && !match_identifier_char(match, NULL).valid())
+	{
+		return string(iter, match);
+	}
+	else
+	{
+		return string();
+	}
+}
+
+string match_plus(const str_iter &iter)
+{
+	return match_str(iter, "+");
 }
 
 string match_minus(const str_iter &iter)
 {
-	if(!iter.valid()) return string();
-	return string(iter, iter.match("-"));
+	return match_str(iter, "-");
 }
 
 string match_multiply(const str_iter &iter)
 {
-	if(!iter.valid()) return string();
-	return string(iter, iter.match("*"));
+	return match_str(iter, "*");
 }
 
 string match_divide(const str_iter &iter)
 {
-	if(!iter.valid()) return string();
-	return string(iter, iter.match("/"));
+	return match_str(iter, "/");
 }
 
 string match_match(const str_iter &iter)
 {
-	if(!iter.valid()) return string();
-	return string(iter, iter.match("="));
+	return match_str(iter, "=");
+}
+
+string match_arrow(const str_iter &iter)
+{
+	return match_str(iter, "->");
+}
+
+string match_paren_open(const str_iter &iter)
+{
+	return match_str(iter, "(");
+}
+
+string match_paren_closed(const str_iter &iter)
+{
+	return match_str(iter, ")");
+}
+
+string match_comma(const str_iter &iter)
+{
+	return match_str(iter, ",");
+}
+
+string match_dot(const str_iter &iter)
+{
+	return match_str(iter, ".");
+}
+
+/** KEYWORDS **/
+
+string match_def(const str_iter &iter)
+{
+	return match_keyword(iter, "def");
+}
+
+string match_and(const str_iter &iter)
+{
+	return match_keyword(iter, "and");
+}
+
+string match_or(const str_iter &iter)
+{
+	return match_keyword(iter, "or");
+}
+
+string match_not(const str_iter &iter)
+{
+	return match_keyword(iter, "not");
 }
 
 string match_indent_frag(const str_iter &iter)

@@ -29,6 +29,8 @@ public:
 	token_expectation_exception(token_type found, token_type expected);
 };
 
+
+
 class lexer
 {
 protected:
@@ -40,15 +42,33 @@ protected:
 
 	str_iter beginning, current;
 
+	/*!
+	 * Register a token. Maps token type to a match function, a name and
+	 * optionally includes or excludes token from the match list.
+	 */
 	void register_token(token_type, token_match_func, const std::string &, bool);
+
+	/*!
+	 * Matches a single token, given token_type. If matching fails, the current
+	 * text iterator isn't changed.
+	 */
 	bool match_single_token(token &, token_type);
+
+	/*!
+	 * Attempts to match every token from the match list, 
+	 * updates `t to first successful match and returns true if anything matched. 
+	 */
 	bool match_any_token(token &);
+
+	/*!
+	 * Matches an expected token, returns a bool indicating success or failure. 
+	 * Updates `t to the matched token. Optionally, skips the skip-token.
+	 */
 	bool match_expected_token(token &t, token_type type, bool match_skip);
-	virtual void transform_token(token &t);
+
 public:
 	lexer();
 	lexer(const str_iter &);
-	virtual ~lexer();
 
 	bool valid_token_type(token_type) const;
 	std::string get_token_name(token_type) const;
@@ -61,6 +81,7 @@ public:
 	token look_ahead(int distance);
 	token consume();
 	token consume(token_type, bool match_skip = true);
+	bool try_consume(token &, token_type, bool match_skip = true);
 	void rollback();
 	void emit(token_type);
 

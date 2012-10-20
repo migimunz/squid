@@ -3,9 +3,11 @@ import os
 import platform
 
 parser_sources = glob.glob("../src/parser/*.cpp")
+visitor_sources = glob.glob("../src/visitors/*.cpp")
+
 env = Environment()
 if platform.platform(True, True).find('Windows') == 0:
 	env.Append(CCFLAGS = '/EHsc')
-env.Library('squid', parser_sources)
+env.StaticLibrary('squid', parser_sources + visitor_sources)
 # if platform.platform(True, True).find('Windows') == 0:
 # 	env.Append(CPPPATH=[os.environ['BOOST_DIR']])

@@ -1,3 +1,4 @@
-- popravi consume_indent_token
-- sredi generisanje indent tokena 
-- pocni paser!
+- Dodaj binary operation parslet
+- Dodaj prefix parslet za '(' 
+	- konverzija u tuple ako ima ','
+	- vraca izraz u sebi (transparent)

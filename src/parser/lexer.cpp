@@ -27,10 +27,6 @@ lexer::lexer()
 {
 }
 
-lexer::~lexer()
-{
-}
-
 lexer::lexer(const str_iter &text)
 	:token_matchers(),
 	 token_names(),
@@ -40,7 +36,6 @@ lexer::lexer(const str_iter &text)
 	set_text(text);
 }
 
-
 bool lexer::match_single_token(token &t, token_type type)
 {
 	token_match_func matcher = get_token_matcher(type);
@@ -49,7 +44,6 @@ bool lexer::match_single_token(token &t, token_type type)
 	{
 		t = token(type, match, str_iter::dist(beginning, current));
 		current = match.get_end_iter();
-		transform_token(t);
 		return true;
 	}
 	else
@@ -116,9 +110,6 @@ token lexer::look_ahead(int distance)
 	return tokens_ahead.front();
 }
 
-void lexer::transform_token(token &t)
-{
-}
 
 void lexer::rollback()
 {
@@ -138,11 +129,16 @@ token lexer::consume()
 	return t;
 }
 
+bool lexer::try_consume(token &t, token_type type, bool match_skip)
+{
+	rollback();
+	return match_expected_token(t, type, match_skip);
+}
+
 token lexer::consume(token_type type, bool match_skip)
 {
 	token t;
-	rollback();
-	if(match_expected_token(t, type, match_skip))
+	if(try_consume(t, type, match_skip))
 	{
 		return t;
 	}
@@ -200,6 +196,8 @@ void lexer::emit(token_type type)
 // 		tokens_ahead.pop_front();
 // 	return t;
 // }
+
+
 
 bool lexer::valid_token_type(token_type type) const
 {

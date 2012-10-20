@@ -1,4 +1,5 @@
 #include "squid_lexer.hpp"
+#include <iostream>
 
 namespace squid
 {
@@ -19,20 +20,28 @@ squid_lexer::squid_lexer(const str_iter &text)
 	init();
 }
 
-squid_lexer::~squid_lexer()
-{
-}
-
 void squid_lexer::init()
 {
 	register_token(INVALID, 	match_invalid, 		"INVALID TOKEN",	false);
 	register_token(END_OF_TEXT, match_end_of_text, 	"END_OF_TEXT",		true);
 	register_token(WHITESPACE, 	match_whitespace, 	"WHITESPACE",		true);
+	/** OPERATORS AND SYMBOLS **/
+	register_token(ARROW, 		match_arrow, 		"'->'", 			true);
 	register_token(PLUS, 		match_plus, 		"'+'", 				true);
 	register_token(MINUS,		match_minus, 		"'-'", 				true);
 	register_token(MULTIPLY,	match_multiply, 	"'*'", 				true);
 	register_token(DIVIDE,		match_divide, 		"'/'", 				true);
 	register_token(MATCH,		match_match, 		"'='", 				true);
+	register_token(PAREN_OPEN,	match_paren_open,	"'('", 				true);
+	register_token(PAREN_CLOSED,match_paren_closed,	"')'", 				true);
+
+	/** KEYWORDS AND LITERALS **/
+	register_token(DEF, 		match_def, 			"'def'", 			true);
+	register_token(AND, 		match_and, 			"'and'", 			true);
+	register_token(OR, 			match_or, 			"'or'", 			true);
+	register_token(NOT, 		match_not, 			"'not'", 			true);
+	register_token(COMMA, 		match_comma, 		"','", 				true);
+	register_token(DOT, 		match_dot, 			"'.'", 				true);
 	register_token(IDENTIFIER, 	match_identifier, 	"IDENTIFIER", 		true);
 	/**
 	 * INDENT and DEDENT are never matched in text, only
@@ -46,8 +55,10 @@ void squid_lexer::init()
 int squid_lexer::compute_indent_level(str_iter iter, str_iter end)
 {
 	int level = 0;
+	iter = iter.match("\n");
 	while(iter.valid() && iter <= end)
 	{
+
 		iter = iter.match(space_indent) | iter.match("\t");
 		if(iter.valid())
 			level++;
@@ -57,22 +68,59 @@ int squid_lexer::compute_indent_level(str_iter iter, str_iter end)
 	return level;
 }
 
-void squid_lexer::transform_token(token &tok)
-{
-	if(tok.type == INDENT_FRAG)
-	{
-		int level = compute_indent_level(tok.text.get_start_iter(), tok.text.get_end_iter());
-		int new_level = level - indent_level;
 
+bool squid_lexer::try_consume_indent_token(token_type type)
+{
+	token indent_token;
+	if(!tokens_ahead.empty() && tokens_ahead.front().type == type)
+	{
+		tokens_ahead.pop_front();
+		return true;
 	}
+	if(try_consume(indent_token, INDENT_FRAG, false))
+	{
+		int level = compute_indent_level(
+			indent_token.text.get_start_iter(),
+			indent_token.text.get_end_iter());
+		int delta_indent = level - indent_level;
+
+		if(delta_indent > 0 && type == INDENT) //Code is indented one or more levels
+		{
+			/**
+			 * Can only consume a single INDENT token in a row, so multiple INDENTS
+			 * are collapsed into a single one.
+			 */
+			indent_level++;
+			return true;
+		}
+		else if(delta_indent < 0 && type == DEDENT) //Code is dedented one or more levels
+		{
+			/**
+			 * Consumes the first dedent, pushes the rest to tokens_ahead.
+			 */
+			indent_level += delta_indent;
+			for(int i = 1; i < (-delta_indent); ++i)
+			{
+				tokens_ahead.push_front(token(DEDENT, string(), get_position()));
+			}
+			return true;
+		}
+		else //Indentation level hasn't changed or indentation doesn't match type
+		{
+			return false;
+		}
+	}
+	return false;
 }
 
 void squid_lexer::consume_indent_token(token_type type)
 {
-	if(!tokens_ahead.empty())
+	if(!try_consume_indent_token(type))
 	{
-		if(tokens_ahead.front().type == type)
-			throw "FIXME";
+		if(type == INDENT)
+			throw lexer_exception("Expected indented block.", current);
+		else
+			throw lexer_exception("Expected dedented block.", current);
 	}
 }
 

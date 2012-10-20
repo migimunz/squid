@@ -126,6 +126,17 @@ public:
     	TS_ASSERT(*one_or_more(i4, ws, NULL) == '\0');
     }
 
+    void test_indent()
+    {
+        str_iter i1 = "    ";
+        str_iter i2 = "\t";
+        str_iter i3 = "\n    ";
+        TS_ASSERT((i1.match("    ") | i1.match("\t")).valid());
+        TS_ASSERT((i2.match("    ") | i2.match("\t")).valid());
+        TS_ASSERT(!(i3.match("    ") | i3.match("\t")).valid());
+
+    }
+
     void test_alternate_cclass()
     {
         str_iter i1 = "a!";
