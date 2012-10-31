@@ -16,7 +16,8 @@ enum token_type
 	INVALID = 0,
 	END_OF_TEXT,		// EOF
 	INDENT_FRAG,		// '\n' ('    ' | '\t')*
-	WHITESPACE,			// (' '|'\t'|'\t'|'\n')*
+	NEWLINE,			// '\n'
+	WHITESPACE,			// (' '|'\t'|'\t'|'\n')* //FIXME: BRISI
 	/** OPERATORS AND SYMBOLS **/
 	AND,				// 'and'
 	OR,					// 'or'
@@ -38,13 +39,15 @@ enum token_type
 	/** LITERALS AND META **/
 	INDENT,				// -->
 	DEDENT,				// <--
+	INDENT_UNCHANGED,
 	TOKEN_TYPE_COUNT 	//number of token types
 };
 
 typedef string(*token_match_func)(const str_iter &);
 
-struct token
+class token
 {
+public:
 	token_type type;
 	string text;
 	int position;
@@ -82,4 +85,5 @@ string match_dot(const str_iter &iter);
 string match_and(const str_iter &iter);
 string match_or(const str_iter &iter);
 string match_not(const str_iter &iter);
+string match_newline(const str_iter &iter);
 }

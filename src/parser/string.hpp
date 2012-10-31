@@ -73,7 +73,7 @@ public:
 		return start.valid() && end.valid();
 	}
 
-	std::string str()
+	std::string str() const
 	{
 		return std::string(start.get_ptr(), str_iter::dist(start, end));
 	}

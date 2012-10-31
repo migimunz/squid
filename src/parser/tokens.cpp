@@ -172,7 +172,7 @@ string match_indent_frag(const str_iter &iter)
 string match_whitespace(const str_iter &iter)
 {
 	if(!iter.valid()) return string();
-	return string(iter, iter.one_or_more(any, " \r\n\t"));
+	return string(iter, iter.one_or_more(any, " \t\r\n"));
 }
 
 string match_end_of_text(const str_iter &iter)
@@ -182,5 +182,34 @@ string match_end_of_text(const str_iter &iter)
 	else
 		return string(iter, iter);
 }
+
+/*!
+ * Matches any number of spaces and tabs terminated by a newline.
+ * Then recursively matches the same thing, in order to compers multiple newlines
+ * into a single token.
+ */
+str_iter match_newlines(const str_iter &iter)
+{
+	str_iter leading_ws = iter.zero_or_more(any, " \t");
+	str_iter nl = leading_ws.one_or_more(match, "\n"); // matches '\n\n\n\n...'
+	if(nl.valid())
+	{
+		str_iter trailing_nls = match_newlines(nl);
+		if(trailing_nls.valid())
+			return trailing_nls;
+		else
+			return nl;
+	}
+	else
+	{
+		return nl;
+	}
+}
+
+string match_newline(const str_iter &iter)
+{
+	return string(iter, match_newlines(iter));
+}
+
 
 }

@@ -39,6 +39,7 @@ protected:
 	token_type_list always_match_list;
 	token_deque tokens_ahead;
 	token_type skip;
+	int skip_newline;
 
 	str_iter beginning, current;
 
@@ -66,6 +67,15 @@ protected:
 	 */
 	bool match_expected_token(token &t, token_type type, bool match_skip);
 
+	// /*!
+	//  * Skips whitespace conditionally
+	//  */
+	// void skip_whitespace();
+
+	// !
+	//  * Returns true if skip token
+	 
+	// bool is_skip_token(const token &t);
 public:
 	lexer();
 	lexer(const str_iter &);

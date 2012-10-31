@@ -1,4 +1,5 @@
-- Dodaj binary operation parslet
-- Dodaj prefix parslet za '(' 
-	- konverzija u tuple ako ima ','
-	- vraca izraz u sebi (transparent)
+- Ubaciti matcher i AST ndoe za string i integer/float literale
+- Napisati managed string tip koji podrzava utf8
+- Napisati variant tip koji podrzava proveru tipa i konverziju
+- Promeniti parser da posebno parsira top-level funkcije i unutrasnje
+- Ubaciti guardove

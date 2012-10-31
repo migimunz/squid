@@ -27,9 +27,10 @@ struct dot_edge
 {
 	static const int INVALID = -1;
 	int parent_id, child_id;
+	std::string label;
 
 	dot_edge();
-	dot_edge(int parent_id, int child_id);
+	dot_edge(int parent_id, int child_id, const std::string &label);
 	dot_edge &operator=(const dot_edge &rhs);
 };
 
@@ -39,7 +40,7 @@ typedef std::vector<dot_edge> dot_edge_list;
 class dot_visitor : public ast_visitor
 {
 	dot_node &create_node();
-	void visit_child(int parent_id, ast_node *node);
+	void visit_child(int parent_id, ast_node_ptr node);
 	void set_parent(int id);
 
 	void print_begin(std::ofstream &out);
@@ -50,16 +51,20 @@ class dot_visitor : public ast_visitor
 public:
 	dot_node_list node_list;
 	dot_edge_list edge_list;
+	std::string next_edge_label, graph_label;
 	int prev_id;
 
 	dot_visitor();
 
 	void write_to_file(const char *fname);
-	static void write_to_file(const char *fname, ast_node *node);
+	static void write_to_file(const char *fname, ast_node_ptr node, const std::string &graph_label = "");
 	DECL_VISIT(identifier);
 	DECL_VISIT(unary_op);
 	DECL_VISIT(binary_op);
 	DECL_VISIT(member_access);
+	DECL_VISIT(expression_wrapper);
+	DECL_VISIT(expression_list);
+	DECL_VISIT(function_def);
 };
 
 }

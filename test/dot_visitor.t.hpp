@@ -10,6 +10,16 @@ using namespace squid;
 class DotVisitorTestSuite : public CxxTest::TestSuite
 {
 public:
+	struct test_struct
+	{
+		int a, b;
+		test_struct(int a, int b)
+			:a(a),
+			 b(b)
+		{
+		}
+	};
+
 	void test_manual_ast()
 	{
 		ast_node *left = new binary_op_node(binary_op_node::MULT, 
@@ -34,7 +44,7 @@ public:
 	{
 		squid_lexer lexer("(a.m + -b.m.m) * -(-c.m)");
 		parser parser(lexer);
-		ast_node *root = parser.parse_expression(0);
+		ast_node_ptr root = parser.parse_expression(0);
 		dot_visitor::write_to_file("test/test_expression_ast.dot", root);
 	}
 
@@ -42,8 +52,21 @@ public:
 	{
 		squid_lexer lexer("foo = bar * -baz");
 		parser parser(lexer);
-		ast_node *root = parser.parse_expression(0);
+		ast_node_ptr root = parser.parse_expression(0);
 		dot_visitor::write_to_file("test/test_ematch_ast.dot", root);
+	}
+
+	void test_funcdef_ast()
+	{
+		const char *text = ""
+		"\ndef square(a, b) -> a * b"
+		"\ndef dotProduct(a, b) -> "
+		"\n    a.x * b.x + a.y * b.y"
+		"\n";
+		squid_lexer lexer(text);
+		parser parser(lexer);
+		ast_node_ptr root = parser.parse_script();
+		dot_visitor::write_to_file("test/test_funcdef_ast.dot", root, text);
 	}
 
 };

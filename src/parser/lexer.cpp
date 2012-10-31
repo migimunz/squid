@@ -1,5 +1,4 @@
 #include "lexer.hpp"
-#include <iostream>
 
 namespace squid
 {
@@ -23,7 +22,8 @@ lexer::lexer()
 	:token_matchers(),
 	 token_names(),
 	 tokens_ahead(),
-	 skip(WHITESPACE)
+	 skip(WHITESPACE),
+	 skip_newline(0)
 {
 }
 
@@ -31,7 +31,8 @@ lexer::lexer(const str_iter &text)
 	:token_matchers(),
 	 token_names(),
 	 tokens_ahead(),
-	 skip(WHITESPACE)
+	 skip(WHITESPACE),
+	 skip_newline(0)
 {
 	set_text(text);
 }
@@ -50,20 +51,6 @@ bool lexer::match_single_token(token &t, token_type type)
 	{
 		return false;
 	}
-}
-
-bool lexer::match_expected_token(token &t, token_type type, bool match_skip)
-{
-	if(!valid_token_type(type))
-		return false;
-
-	//skipping whitespace
-	if(match_skip)
-	{
-		token dummy;
-		match_single_token(dummy, skip);
-	}
-	return match_single_token(t, type);
 }
 
 bool lexer::match_any_token(token &t)
@@ -86,6 +73,30 @@ token lexer::read_token()
 	return t;
 }
 
+// bool lexer::is_skip_token(const token &t)
+// {
+// 	if((t.type == skip) || (skip_newline > 0 && t.type == NEWLINE))
+// 	{
+// 		return true;
+// 	}
+// 	else
+// 	{
+// 		return false;
+// 	}
+// }
+
+// void lexer::skip_whitespace()
+// {
+// 	bool skipping = true;
+// 	token t;
+// 	while(skipping)
+// 	{
+// 		skipping = match_single_token(t, skip);
+// 		if(skip_newline)
+// 			skipping = match_single_token(t, NEWLINE);
+// 	}
+// }
+
 str_iter lexer::read_token(token &t_out)
 {
 	token t;
@@ -97,6 +108,20 @@ str_iter lexer::read_token(token &t_out)
 	} while(t.valid() && t.type == skip);
 	t_out = t;
 	return current;
+}
+
+bool lexer::match_expected_token(token &t, token_type type, bool match_skip)
+{
+	if(!valid_token_type(type))
+		return false;
+
+	//FIXME: skipping whitespace
+	if(match_skip)
+	{
+		token dummy;
+		match_single_token(dummy, skip);
+	}
+	return match_single_token(t, type);
 }
 
 token lexer::look_ahead(int distance)
@@ -156,48 +181,6 @@ void lexer::emit(token_type type)
 		string(current, current),
 		str_iter::dist(beginning, current)));
 }
-
-// token lexer::consume(token_type type)
-// {
-// 	token t = look_ahead(0);
-// 	if(t.type != type)
-// 		throw token_expectation_exception(t.type, type);
-// 	else
-// 		tokens_ahead.pop_front();
-// 	return t;
-// }
-
-// token lexer::consume(token_type type)
-// {
-// 	token t(INVALID);
-// 	if(tokens_ahead.empty())
-// 		match_expected_token(t, type);
-// 	else
-// 		t = tokens_ahead.front();
-
-// 	if(t.type != type)
-// 	{	
-// 		t = look_ahead(0);
-// 		throw token_expectation_exception(t.type, type);
-// 	}
-// 	else
-// 	{
-// 		tokens_ahead.pop_front();
-// 	}
-// 	return t;
-// }
-
-// token lexer::consume(token_type type)
-// {
-// 	token t = look_ahead(0);
-// 	if(t.type != type)
-// 		throw token_expectation_exception(t.type, type);
-// 	else
-// 		tokens_ahead.pop_front();
-// 	return t;
-// }
-
-
 
 bool lexer::valid_token_type(token_type type) const
 {

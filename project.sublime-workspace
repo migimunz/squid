@@ -4,6 +4,90 @@
 		"selected_items":
 		[
 			[
+				"memo",
+				"memory_bins"
+			],
+			[
+				"memory",
+				"memory_bins"
+			],
+			[
+				"memor",
+				"memory_bin"
+			],
+			[
+				"chil",
+				"children"
+			],
+			[
+				"tok",
+				"tok_iter"
+			],
+			[
+				"INDENT",
+				"INDENT_UNCHANGED"
+			],
+			[
+				"indent",
+				"indent_tok"
+			],
+			[
+				"nested",
+				"nested_exp_depth"
+			],
+			[
+				"lexer",
+				"lexer_exception"
+			],
+			[
+				"con",
+				"consume_indentation"
+			],
+			[
+				"trai",
+				"trailing_nls"
+			],
+			[
+				"indent_l",
+				"indent_level"
+			],
+			[
+				"push",
+				"push_front"
+			],
+			[
+				"INDE",
+				"INDENT_FRAG"
+			],
+			[
+				"prece",
+				"precedence_map"
+			],
+			[
+				"binary",
+				"binary_operator_parslet"
+			],
+			[
+				"match_i",
+				"match_identifier_char"
+			],
+			[
+				"sexp",
+				"sexp_expression"
+			],
+			[
+				"unary_",
+				"unary_op_node"
+			],
+			[
+				"visit",
+				"visit_child"
+			],
+			[
+				"init_",
+				"init_parslets"
+			],
+			[
 				"parent",
 				"parent_id"
 			],
@@ -42,10 +126,6 @@
 			[
 				"de",
 				"delta_indent"
-			],
-			[
-				"INDENT",
-				"INDENT_FRAG"
 			],
 			[
 				"coun",
@@ -96,42 +176,10 @@
 	"buffers":
 	[
 		{
-			"file": "src/parser/squid_lexer.hpp",
+			"file": "src/parser/ast.hpp",
 			"settings":
 			{
-				"buffer_size": 447,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/parser/lexer.hpp",
-			"settings":
-			{
-				"buffer_size": 2292,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/parser/tokens.hpp",
-			"settings":
-			{
-				"buffer_size": 1621,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/parser/string.hpp",
-			"settings":
-			{
-				"buffer_size": 1386,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/parser/parser.hpp",
-			"settings":
-			{
-				"buffer_size": 717,
+				"buffer_size": 2676,
 				"line_ending": "Windows"
 			}
 		},
@@ -139,55 +187,31 @@
 			"file": "src/parser/ast_visitor.hpp",
 			"settings":
 			{
-				"buffer_size": 407,
+				"buffer_size": 347,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "src/parser/ast.hpp",
+			"file": "src/parser/parser.hpp",
 			"settings":
 			{
-				"buffer_size": 986,
+				"buffer_size": 1639,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "src/parser/ast_visitor.cpp",
+			"file": "src/parser/parslets.hpp",
 			"settings":
 			{
-				"buffer_size": 202,
+				"buffer_size": 974,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "src/parser/squid_lexer.cpp",
+			"file": "src/visitors/dot_visitor.hpp",
 			"settings":
 			{
-				"buffer_size": 3231,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/parser/tokens.cpp",
-			"settings":
-			{
-				"buffer_size": 2452,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/parser/parser.cpp",
-			"settings":
-			{
-				"buffer_size": 221,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "test/parser.t.cpp",
-			"settings":
-			{
-				"buffer_size": 0,
+				"buffer_size": 1378,
 				"line_ending": "Windows"
 			}
 		},
@@ -195,26 +219,39 @@
 			"file": "src/parser/ast.cpp",
 			"settings":
 			{
-				"buffer_size": 605,
+				"buffer_size": 2666,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "test/SConscript",
+			"file": "src/parser/parser.cpp",
 			"settings":
 			{
-				"buffer_size": 813,
+				"buffer_size": 3837,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "import subprocess\nimport glob\nimport os\n\nprint('')\nfor test in glob.glob('test/*.t.hpp'):\n	test = test.replace('.t.hpp', '_test.exe')\n	print('Running %s:' % test)\n	subprocess.call(test)\n	print('')\n\nif 'GRAPHVIZ_PATH' in os.environ:\n	print('Generating AST graphs...')\n	for dot in glob.glob('test/*.dot'):\n		pngname = dot.replace('.dot', '.png')\n		print('Generated %s' % pngname)\n		subprocess.call(['dot', dot, '-Tpng', '-o'+pngname])\n	print('')\n\n",
-			"file": "run_tests.py",
-			"file_size": 460,
-			"file_write_time": 129950625761355403,
+			"file": "src/parser/parslets.cpp",
 			"settings":
 			{
-				"buffer_size": 445,
+				"buffer_size": 2493,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/visitors/dot_visitor.cpp",
+			"settings":
+			{
+				"buffer_size": 3945,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/parser/seq_alloc.cpp",
+			"settings":
+			{
+				"buffer_size": 907,
 				"line_ending": "Windows"
 			}
 		}
@@ -222,9 +259,13 @@
 	"build_system": "Packages/User/scons.sublime-build",
 	"command_palette":
 	{
-		"height": 127.0,
+		"height": 288.0,
 		"selected_items":
 		[
+			[
+				":w",
+				":w - Save"
+			],
 			[
 				"build",
 				"Build: Cancel"
@@ -252,10 +293,6 @@
 			[
 				"Package Control: in",
 				"Package Control: Install Package"
-			],
-			[
-				":w",
-				":w - Save"
 			],
 			[
 				"Package",
@@ -303,15 +340,36 @@
 	},
 	"file_history":
 	[
-		"/D/dev/squid/lib/SConscript",
-		"/D/dev/squid/src/visitors/dot_visitor.cpp",
-		"/D/dev/squid/src/visitors/dot_visitor.hpp",
-		"/D/dev/squid/SConstruct",
 		"/D/dev/squid/test/SConscript",
+		"/D/dev/squid/src/parser/lexer_base.cpp",
+		"/D/dev/squid/src/parser/tokens.cpp",
+		"/D/dev/squid/src/parser/squid_lexer.cpp",
+		"/D/dev/squid/src/parser/seq_alloc.hpp",
+		"/D/dev/squid/src/parser/lexer.hpp",
+		"/D/dev/squid/src/parser/tokens.hpp",
+		"/D/dev/squid/src/parser/string.hpp",
+		"/D/dev/squid/src/parser/squid_lexer.hpp",
+		"/D/dev/squid/src/parser/ast_visitor.hpp",
+		"/D/dev/squid/src/parser/lexer_base.hpp",
+		"/D/dev/squid/src/parser/parser.cpp",
+		"/D/dev/squid/src/parser/parslets.cpp",
+		"/D/dev/squid/src/parser/parser.hpp",
+		"/D/dev/squid/src/parser/parslets.hpp",
+		"/D/dev/squid/src/visitors/dot_visitor.hpp",
+		"/D/dev/squid/src/visitors/sexp_visitor.hpp",
+		"/D/dev/squid/src/visitors/dot_visitor.cpp",
+		"/D/dev/squid/src/visitors/sexp_visitor.cpp",
+		"/D/dev/squid/src/parser/lexer.cpp",
+		"/C/Users/Particle/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/D/dev/squid/src/parser/string_iterator.hpp",
+		"/D/dev/squid/test/dot_visitor.t.hpp",
+		"/D/dev/squid/src/parser/ast_visitor.cpp",
+		"/D/dev/squid/SConstruct",
+		"/D/dev/squid/run_tests.py",
+		"/D/dev/squid/test/parser.t.cpp",
+		"/D/dev/squid/lib/SConscript",
 		"/D/dev/squid/src/parser/dot_visitor.cpp",
 		"/D/dev/squid/src/parser/dot_visitor.hpp",
-		"/D/dev/squid/src/parser/lexer.cpp",
-		"/D/dev/squid/src/parser/squid_lexer.hpp",
 		"/C/Users/Particle/AppData/Roaming/Sublime Text 2/Packages/User/scons.sublime-build",
 		"/D/dev/squid/project.sublime-project",
 		"/C/nginx/html/LogicBoar/expressions.jison",
@@ -339,7 +397,6 @@
 		"/C/nginx/html/propgrid/index.html",
 		"/C/nginx/html/radionica/prvo.md",
 		"/C/Users/Particle/Documents/radionica/prvo.md",
-		"/C/Users/Particle/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
 		"/C/nginx/html/Planets/js/TextureGenerator.js",
 		"/C/nginx/html/Planets/js/noise.js",
 		"/C/nginx/html/Planets/js/game.js",
@@ -385,6 +442,7 @@
 		"height": 0.0,
 		"where_history":
 		[
+			""
 		]
 	},
 	"find_state":
@@ -392,6 +450,31 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"	virtual int children_count() const;\n	virtual ast_node *child_at(int idx) const;",
+			".get()",
+			"ast_node_uptr",
+			"uptr",
+			"new ",
+			"valid",
+			"lexer",
+			"patt",
+			"patter",
+			"sp",
+			"match_expected_token",
+			"prefix_pre",
+			"get_precedence",
+			"set_precedence",
+			"dot",
+			"(parser &parser, ast_node *left, token &tok)",
+			"(const str_iter &iter)",
+			"exp << ",
+			"dnode.attributes[\"label\"]",
+			"visit",
+			"range",
+			"ast_node_ptr",
+			"left",
+			"letf",
+			"ast_node_ptr",
 			"iter",
 			"pop_fron",
 			"clear",
@@ -443,33 +526,35 @@
 		"regex": false,
 		"replace_history":
 		[
+			"",
+			"ast_node *"
 		],
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": true,
+		"whole_word": false,
 		"wrap": true
 	},
 	"groups":
 	[
 		{
-			"selected": 6,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/parser/squid_lexer.hpp",
+					"file": "src/parser/ast.hpp",
 					"settings":
 					{
-						"buffer_size": 447,
+						"buffer_size": 2676,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								205,
-								217
+								720,
+								720
 							]
 						],
 						"settings":
@@ -478,288 +563,17 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 528.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "src/parser/lexer.hpp",
-					"settings":
-					{
-						"buffer_size": 2292,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								243,
-								154
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "src/parser/tokens.hpp",
-					"settings":
-					{
-						"buffer_size": 1621,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1616,
-								1616
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "src/parser/string.hpp",
-					"settings":
-					{
-						"buffer_size": 1386,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								102,
-								102
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "src/parser/parser.hpp",
-					"settings":
-					{
-						"buffer_size": 717,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								12,
-								12
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
 					"file": "src/parser/ast_visitor.hpp",
 					"settings":
 					{
-						"buffer_size": 407,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								108,
-								61
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "src/parser/ast.hpp",
-					"settings":
-					{
-						"buffer_size": 986,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								769,
-								769
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 378.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 7,
-					"file": "src/parser/ast_visitor.cpp",
-					"settings":
-					{
-						"buffer_size": 202,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								202,
-								202
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 54.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "src/parser/squid_lexer.cpp",
-					"settings":
-					{
-						"buffer_size": 3231,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1863,
-								1863
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 594.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "src/parser/tokens.cpp",
-					"settings":
-					{
-						"buffer_size": 2452,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1936,
-								1936
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1296.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "src/parser/parser.cpp",
-					"settings":
-					{
-						"buffer_size": 221,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								221,
-								221
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "test/parser.t.cpp",
-					"settings":
-					{
-						"buffer_size": 0,
+						"buffer_size": 347,
 						"regions":
 						{
 						},
@@ -781,19 +595,46 @@
 					"type": "text"
 				},
 				{
-					"buffer": 12,
-					"file": "src/parser/ast.cpp",
+					"buffer": 2,
+					"file": "src/parser/parser.hpp",
 					"settings":
 					{
-						"buffer_size": 605,
+						"buffer_size": 1639,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								602,
-								602
+								201,
+								201
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/parser/parslets.hpp",
+					"settings":
+					{
+						"buffer_size": 974,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								974,
+								974
 							]
 						],
 						"settings":
@@ -807,50 +648,166 @@
 					"type": "text"
 				},
 				{
-					"buffer": 13,
-					"file": "test/SConscript",
+					"buffer": 4,
+					"file": "src/visitors/dot_visitor.hpp",
 					"settings":
 					{
-						"buffer_size": 813,
+						"buffer_size": 1378,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								285,
-								285
+								1089,
+								1089
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 486.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 5,
+					"file": "src/parser/ast.cpp",
+					"settings":
+					{
+						"buffer_size": 2666,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								780,
+								780
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 132.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 14,
-					"file": "run_tests.py",
+					"buffer": 6,
+					"file": "src/parser/parser.cpp",
 					"settings":
 					{
-						"buffer_size": 445,
+						"buffer_size": 3837,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								445,
-								445
+								3098,
+								3098
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1890.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "src/parser/parslets.cpp",
+					"settings":
+					{
+						"buffer_size": 2493,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1515,
+								1515
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 988.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "src/visitors/dot_visitor.cpp",
+					"settings":
+					{
+						"buffer_size": 3945,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2345,
+								2345
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1890.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "src/parser/seq_alloc.cpp",
+					"settings":
+					{
+						"buffer_size": 907,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								84,
+								84
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -889,7 +846,7 @@
 		"cols":
 		[
 			0.0,
-			0.5,
+			0.459207459207,
 			1.0
 		],
 		"rows":
@@ -909,7 +866,7 @@
 	},
 	"replace":
 	{
-		"height": 0.0
+		"height": 62.0
 	},
 	"save_all_on_build": true,
 	"select_file":

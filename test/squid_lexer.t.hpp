@@ -3,7 +3,6 @@
 #include <cstring>
 #include <stdexcept>
 #include <sstream>
-#include <iostream>
 
 using namespace squid;
 
