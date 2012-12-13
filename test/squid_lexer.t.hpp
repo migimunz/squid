@@ -41,6 +41,14 @@ public:
 		TS_ASSERT_EQUALS(squid_lexer("notfoo").consume().type, IDENTIFIER);
 	}
 
+	void test_numerics()
+	{
+		squid_lexer lex("123 123.02 0x2");
+		TS_ASSERT_EQUALS(lex.consume().type, INTEGER);
+		TS_ASSERT_EQUALS(lex.consume().type, FLOAT);
+		TS_ASSERT_EQUALS(lex.consume().type, HEX_INTEGER);
+	}
+
 	void test_read_token()
 	{
 		squid_lexer lex("foo + b * c");

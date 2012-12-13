@@ -29,7 +29,6 @@ public:
 	DECL_VISIT(unary_op);
 	DECL_VISIT(binary_op);
 	DECL_VISIT(member_access);
-	DECL_VISIT(expression_wrapper);
 	DECL_VISIT(expression_list);
 	DECL_VISIT(function_def);
 };

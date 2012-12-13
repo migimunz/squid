@@ -38,12 +38,25 @@ ast_node::~ast_node()
 {
 }
 
-ast_visitor::~ast_visitor() {}
 
+ast_node_ptr ast_visitor::visit_child(const ast_node_ptr & child)
+{
+	return child->accept(*this);
+}
+
+// ast_visitor::ast_visitor() {}
+ast_visitor::~ast_visitor() {}
 
 identifier_node::identifier_node(const id_str &text)
 	:ast_node(IDENTIFIER_NODE),
 	text(text)
+{
+}
+
+number_node::number_node(const number_str &text, number_node::number_type type)
+	:ast_node(NUMBER_NODE),
+	text(text),
+	type(type)
 {
 }
 
@@ -84,6 +97,18 @@ const char *binary_op_node::get_operator_str()
 		default: //To stop the compiler from whining
 			return "?";
 	}
+}
+
+match_node::match_node(ast_node_ptr pattern, ast_node_ptr target)
+	:ast_node(MATCH_NODE),
+	pattern(pattern),
+	target(target)
+{
+}
+
+const char *match_node::get_operator_str()
+{
+	return "=";
 }
 
 unary_op_node::unary_op_node(unary_op_type op_type, ast_node_ptr operand)
@@ -131,18 +156,6 @@ ast_node_ptr member_access_node::get_child()
 }
 
 
-expression_wrapper_node::expression_wrapper_node(expression_wrapper_type wrapper_type, ast_node_ptr child)
-	:ast_node(EXPRESSION_WRAPPER),
-	wrapper_type(wrapper_type),
-	child(child)
-{
-}
-
-ast_node_ptr expression_wrapper_node::get_child()
-{
-	return child;
-}
-
 expression_list_node::expression_list_node()
 	:ast_node(EXPRESSION_LIST),
 	children()
@@ -154,14 +167,9 @@ expr_node_list &expression_list_node::get_children()
 	return children;
 }
 
-void expression_list_node::append_child(expression_wrapper_node_ptr child)
+void expression_list_node::append_child(ast_node_ptr child)
 {
 	children.push_back(child);
-}
-
-void expression_list_node::convert_last()
-{
-	children.back()->wrapper_type = expression_wrapper_node::LAST_EXPR;
 }
 
 function_def_node::function_def_node()
@@ -183,10 +191,12 @@ void function_def_node::append_arg(ast_node_ptr arg)
  */
 
 VISIT_ACCEPT_IMPL(identifier)
+VISIT_ACCEPT_IMPL(number)
 VISIT_ACCEPT_IMPL(binary_op)
+VISIT_ACCEPT_IMPL(match)
 VISIT_ACCEPT_IMPL(unary_op)
 VISIT_ACCEPT_IMPL(member_access)
-VISIT_ACCEPT_IMPL(expression_wrapper)
+//VISIT_ACCEPT_IMPL(expression_wrapper)
 VISIT_ACCEPT_IMPL(expression_list)
 VISIT_ACCEPT_IMPL(function_def)
 

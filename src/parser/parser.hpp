@@ -63,7 +63,6 @@ public:
 
 	/** PARSE METHODS **/
 	ast_node_ptr parse_expression(int precedence = 0);
-	expression_wrapper_node_ptr parse_wrapped_expression();
 	expression_list_node_ptr parse_indented_block();
 	ast_node_ptr parse_indented_block_or_expr();
 	expression_list_node_ptr parse_script();

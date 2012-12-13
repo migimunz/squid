@@ -30,6 +30,16 @@ ast_node_ptr prefix_identifier(parser &parser, token &tok)
 	return new identifier_node(tok.text.str());
 }
 
+ast_node_ptr prefix_float(parser &parser, token &tok)
+{
+	return new number_node(tok.text.str(), number_node::FLOAT);
+}
+
+ast_node_ptr prefix_integer(parser &parser, token &tok)
+{
+	return new number_node(tok.text.str(), number_node::INTEGER);
+}
+
 ast_node_ptr prefix_unary_minus(parser &parser, token &tok)
 {
 	return unary_operator_parslet(unary_op_node::MINUS, parser, tok);
@@ -75,10 +85,19 @@ ast_node_ptr infix_or(parser &parser, ast_node_ptr left, token &tok)
 	return binary_operator_parslet(binary_op_node::OR, parser, left, tok);
 }
 
+ast_node_ptr infix_match(parser &parser, ast_node_ptr left, token &tok)
+{
+	ast_node_ptr right = parser.parse_expression(parser.get_infix_precedence(tok.type) - 1);
+	return new match_node(left, right);
+}
+
 ast_node_ptr infix_member_access(parser &parser, ast_node_ptr left, token &tok)
 {
-	//FIXME: check that ast_node_ptr right is an identifier maybe?
-	ast_node_ptr right = parser.parse_expression(parser.get_infix_precedence(tok.type)); 
+	ast_node_ptr right = parser.parse_expression(parser.get_infix_precedence(tok.type));
+	if(right->type != IDENTIFIER_NODE)
+	{
+		throw parser_exception("Expected an identifier after '.'", parser.tok_iter.get_position());
+	}
 	return new member_access_node(left, right);
 }
 

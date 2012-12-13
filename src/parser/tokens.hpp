@@ -33,6 +33,9 @@ enum token_type
 	MATCH,				// '='
 	PAREN_OPEN,			// '('
 	PAREN_CLOSED,		// ')'
+	HEX_INTEGER,
+	INTEGER,
+	FLOAT,
 	IDENTIFIER,			// ('_'|'a'..'z'|'A'..'Z') ('_'|'a'..'z'|'A'..'Z'|'0'..'9')*
 	/** KEYWORDS **/
 	DEF,				// 'def'
@@ -86,4 +89,7 @@ string match_and(const str_iter &iter);
 string match_or(const str_iter &iter);
 string match_not(const str_iter &iter);
 string match_newline(const str_iter &iter);
+string match_integer(const str_iter &iter);
+string match_hex_integer(const str_iter &iter);
+string match_float(const str_iter &iter);
 }

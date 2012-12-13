@@ -69,4 +69,16 @@ public:
 		dot_visitor::write_to_file("test/test_funcdef_ast.dot", root, text);
 	}
 
+	void test_match_ast()
+	{
+		const char *text = ""
+		"\na = 2 = 2.0";
+		squid_lexer lexer(text);
+		parser parser(lexer);
+		ast_node_ptr root = parser.parse_script();
+		dot_visitor::write_to_file("test/test_match_ast.dot", root, text);
+	}
+
+
+
 };

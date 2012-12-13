@@ -102,6 +102,16 @@ IMPL_VISIT(dot_visitor, binary_op, node)
 	return node;
 }
 
+IMPL_VISIT(dot_visitor, match, node)
+{
+	dot_node &dnode = create_node();
+	dnode.attributes["label"] = node->get_operator_str();
+	dnode.attributes["shape"] = "oval";
+	visit_child(dnode.id, node->pattern);
+	visit_child(dnode.id, node->target);
+	return node;
+}
+
 IMPL_VISIT(dot_visitor, unary_op, node)
 {
 	dot_node &dnode = create_node();
@@ -121,13 +131,10 @@ IMPL_VISIT(dot_visitor, member_access, node)
 	return node;
 }
 
-IMPL_VISIT(dot_visitor, expression_wrapper, node)
+IMPL_VISIT(dot_visitor, number, node)
 {
 	dot_node &dnode = create_node();
-	dnode.attributes["label"] = 
-		node->wrapper_type == expression_wrapper_node::LAST_EXPR ? "last expr" : "stmt expr";
-	dnode.attributes["shape"] = "box";
-	visit_child(dnode.id, node->get_child());
+	dnode.attributes["label"] = node->text;
 	return node;
 }
 

@@ -30,6 +30,32 @@ public:
 		TS_ASSERT(!match_divide("*").valid());
 	}
 
+	void test_match_int()
+	{
+		TS_ASSERT_EQUALS(match_integer("1234"), "1234");
+		TS_ASSERT_EQUALS(match_integer("123.4"), "123");
+	}
+
+	void test_match_int_hex()
+	{
+		TS_ASSERT_EQUALS(match_hex_integer("0x1234"), "0x1234");
+		TS_ASSERT_EQUALS(match_hex_integer("0X123.4"), "0X123");
+		TS_ASSERT(!match_hex_integer("1234").valid());
+	}
+
+	void test_match_float()
+	{
+		TS_ASSERT_EQUALS(match_float("12.34"), "12.34");
+		TS_ASSERT_EQUALS(match_float("1.3"), "1.3");
+		TS_ASSERT_EQUALS(match_float(".4"), ".4");
+		TS_ASSERT_EQUALS(match_float("1.4e2"), "1.4e2");
+		TS_ASSERT_EQUALS(match_float("1.4E+123"), "1.4E+123");
+		TS_ASSERT_EQUALS(match_float("1.4e-123"), "1.4e-123");
+		TS_ASSERT_EQUALS(match_float(".2E2"), ".2E2");
+		TS_ASSERT(!match_float(".2E*2").valid());
+		TS_ASSERT(!match_float("22").valid());
+	}
+
 	void test_end_of_text()
 	{
 		TS_ASSERT(match_end_of_text("").valid());

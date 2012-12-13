@@ -198,7 +198,7 @@ public:
 			return zero_or_more(func, str);
 	}
 
-	self_type optional(const match_func &func, str_ptr str)
+	self_type optional(const match_func &func, str_ptr str) const
 	{
 		if(!valid())
 			return self_type();

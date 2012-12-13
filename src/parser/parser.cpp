@@ -108,7 +108,6 @@ void parser::init_precedences()
 	/** INFIX PRECEDENCE **/
 	set_infix_precedence (MATCH, 			10);	// a = b
 
-
 }
 
 void parser::init_parslets()
@@ -117,10 +116,14 @@ void parser::init_parslets()
 	prefix_map[DEF]			=		prefix_function_def; //FIXME:
 	prefix_map[PAREN_OPEN]	=		prefix_paren_open; //FIXME:
 	prefix_map[IDENTIFIER]	= 		prefix_identifier;
+	prefix_map[HEX_INTEGER] = 		prefix_integer;
+	prefix_map[INTEGER] 	= 		prefix_integer;
+	prefix_map[FLOAT] 		= 		prefix_float;
 	prefix_map[MINUS] 		= 		prefix_unary_minus;
 	prefix_map[PLUS] 		= 		prefix_unary_plus;
 	prefix_map[NOT]			=		prefix_unary_not;
 	// Infix parslets
+	infix_map[MATCH]		=		infix_match;
 	infix_map[PLUS]			=		infix_add;
 	infix_map[MINUS]		=		infix_sub;
 	infix_map[MULTIPLY]		=		infix_mult;
@@ -138,11 +141,6 @@ ast_node_ptr parser::parse()
 bool parser::is_expression_terminated()
 {
 	return nested_exp_depth == 0 && tok_iter.peek_newline();
-}
-
-expression_wrapper_node_ptr parser::parse_wrapped_expression()
-{
-	return new expression_wrapper_node(expression_wrapper_node::STATEMENT_EXPR, parse_expression(0));
 }
 
 ast_node_ptr parser::parse_indented_block_or_expr()
@@ -167,7 +165,7 @@ expression_list_node_ptr parser::parse_indented_block()
 	}
 	else //first indented expr
 	{
-		expr_list->append_child(parse_wrapped_expression());
+		expr_list->append_child(parse_expression());
 	}
 
 	tok_iter.consume_indentation(indent_tok);
@@ -175,7 +173,7 @@ expression_list_node_ptr parser::parse_indented_block()
 	{
 		if(indent_tok.type == INDENT_UNCHANGED)
 		{
-			expr_list->append_child(parse_wrapped_expression());
+			expr_list->append_child(parse_expression());
 		}
 		else
 		{
@@ -183,7 +181,6 @@ expression_list_node_ptr parser::parse_indented_block()
 		}
 		tok_iter.consume_indentation(indent_tok);
 	} 
-	expr_list->convert_last();
 
 	return expr_list;
 }
@@ -208,7 +205,7 @@ expression_list_node_ptr parser::parse_script()
 			break;
 		}
 
-		expr_list->append_child(parse_wrapped_expression());
+		expr_list->append_child(parse_expression());
 	}
 	return expr_list;
 

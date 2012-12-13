@@ -53,6 +53,9 @@ void lexer_base::init()
 	register_token(OR, 			match_or, 			"'or'", 			true);
 	register_token(NOT, 		match_not, 			"'not'", 			true);
 	register_token(COMMA, 		match_comma, 		"','", 				true);
+	register_token(FLOAT, 		match_float,		"FLOAT",			true);
+	register_token(HEX_INTEGER, match_hex_integer,	"HEX_INTEGER",		true);
+	register_token(INTEGER, 	match_integer,		"INTEGER",			true);
 	register_token(DOT, 		match_dot, 			"'.'", 				true);
 	register_token(IDENTIFIER, 	match_identifier, 	"IDENTIFIER", 		true);
 	/**

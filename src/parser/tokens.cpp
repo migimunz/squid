@@ -183,6 +183,7 @@ string match_end_of_text(const str_iter &iter)
 		return string(iter, iter);
 }
 
+
 /*!
  * Matches any number of spaces and tabs terminated by a newline.
  * Then recursively matches the same thing, in order to compers multiple newlines
@@ -211,5 +212,43 @@ string match_newline(const str_iter &iter)
 	return string(iter, match_newlines(iter));
 }
 
+str_iter match_integer_frag(const str_iter &matched, str_iter::str_ptr)
+{
+	return matched.one_or_more(digit, NULL);
+}
+
+string match_integer(const str_iter &iter)
+{
+	if(!iter.valid()) return string();
+	return string(iter, match_integer_frag(iter, NULL));
+}
+
+string match_hex_integer(const str_iter &iter)
+{
+	if(!iter.valid()) return string();
+	auto prefix = iter.match("0x") | iter.match("0X");
+	if(!prefix.valid()) return string();
+	return string(iter, prefix.one_or_more(hex_digit, NULL));
+}
+
+string match_float(const str_iter &iter)
+{
+	if(!iter.valid()) return string();
+	auto decimal = iter.optional(match_integer_frag, NULL).match(".");
+
+	if(!iter.valid()) return string();
+	auto fractional = match_integer_frag(decimal, NULL);
+
+	str_iter exponential = fractional.match("e") | fractional.match("E");
+	if(!exponential.valid())
+		return string(iter, fractional);
+
+	auto exponent_sign = exponential.match("-") | exponential.match("+");
+	if(exponent_sign.valid())
+		exponential = exponent_sign;
+	exponential = match_integer_frag(exponential, NULL);
+
+	return string(iter, exponential);
+}
 
 }

@@ -20,8 +20,10 @@ namespace squid
 enum node_type
 {
 	IDENTIFIER_NODE = 0,
+	NUMBER_NODE,
 	UNARY_OP_NODE,
 	BINARY_OP_NODE,
+	MATCH_NODE,
 	MEMBER_ACCESS,
 	EXPRESSION_WRAPPER,
 	EXPRESSION_LIST,
@@ -49,6 +51,7 @@ public:
 };
 
 typedef std::string id_str;
+typedef std::string number_str;
 typedef ast_node::ast_node_ptr ast_node_ptr;
 typedef std::vector<ast_node_ptr> ast_node_list;
 
@@ -73,6 +76,22 @@ public:
 	virtual ast_node_ptr accept(ast_visitor &);
 };
 
+class number_node : public ast_node
+{
+public:
+	enum number_type
+	{
+		INTEGER,
+		FLOAT
+	};
+
+	number_str text;
+	number_type type;
+
+	number_node(const number_str &text, number_type type);
+	virtual ast_node_ptr accept(ast_visitor &);
+};
+
 class binary_op_node : public ast_node
 {
 public:
@@ -93,6 +112,17 @@ public:
 	virtual ast_node_ptr accept(ast_visitor &);
 	ast_node_ptr get_left();
 	ast_node_ptr get_right();
+	const char *get_operator_str();
+};
+
+class match_node : public ast_node
+{
+public:
+
+	ast_node_ptr pattern, target;
+
+	match_node(ast_node_ptr pattern, ast_node_ptr target);
+	virtual ast_node_ptr accept(ast_visitor &);
 	const char *get_operator_str();
 };
 
@@ -127,35 +157,17 @@ public:
 
 };
 
-class expression_wrapper_node : public ast_node
-{
-public:
-	enum expression_wrapper_type
-	{
-		STATEMENT_EXPR,
-		LAST_EXPR
-	};
-
-	ast_node_ptr child;
-	expression_wrapper_type wrapper_type;
-
-	expression_wrapper_node(expression_wrapper_type wrapper_type, ast_node_ptr child);
-	virtual ast_node_ptr accept(ast_visitor &); 
-	ast_node_ptr get_child();
-};
-
-typedef boost::intrusive_ptr<expression_wrapper_node> expression_wrapper_node_ptr;
-typedef std::vector<expression_wrapper_node_ptr> expr_node_list;
+typedef std::vector<ast_node_ptr> expr_node_list;
 
 class expression_list_node : public ast_node
 {
-	expr_node_list children;
 public:
+	expr_node_list children;
+
 	expression_list_node();
 	virtual ast_node_ptr accept(ast_visitor &); 
 	expr_node_list &get_children();
-	void append_child(expression_wrapper_node_ptr child);
-	void convert_last();
+	void append_child(ast_node_ptr child);
 };
 
 typedef boost::intrusive_ptr<expression_list_node> expression_list_node_ptr;

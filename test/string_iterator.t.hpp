@@ -27,6 +27,7 @@ public:
     	TS_ASSERT(*(i2.next()) == 'b');
     }
 
+
     void test_str_match()
     {
     	str_iter i1(text1);

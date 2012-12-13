@@ -32,6 +32,14 @@ public:
 
 	}
 
+	void test_member_access()
+	{
+		squid_lexer lexer("o.m");
+		parser p(lexer);
+		TS_ASSERT_THROWS_NOTHING(p.parse_expression());
+
+	}
+
 	void test_parse_comma_separated()
 	{
 		const char *text = "(a + b, c / d, (a + b + c))";

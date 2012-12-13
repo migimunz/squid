@@ -59,10 +59,11 @@ public:
 	void write_to_file(const char *fname);
 	static void write_to_file(const char *fname, ast_node_ptr node, const std::string &graph_label = "");
 	DECL_VISIT(identifier);
+	DECL_VISIT(number);
 	DECL_VISIT(unary_op);
 	DECL_VISIT(binary_op);
+	DECL_VISIT(match);
 	DECL_VISIT(member_access);
-	DECL_VISIT(expression_wrapper);
 	DECL_VISIT(expression_list);
 	DECL_VISIT(function_def);
 };

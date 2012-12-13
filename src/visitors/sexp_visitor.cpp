@@ -96,12 +96,6 @@ IMPL_VISIT(sexp_visitor, member_access, node)
 	return node;
 }
 
-IMPL_VISIT(sexp_visitor, expression_wrapper, node)
-{
-	node->get_child()->accept(*this);
-	return node;
-}
-
 IMPL_VISIT(sexp_visitor, expression_list, node)
 {
 	sexp_expression exp(out);
